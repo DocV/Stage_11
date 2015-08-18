@@ -7,9 +7,10 @@
 #include <TaskPool.h>
 #include <algorithm>
 #include <TaskManager.h>
+#include <SceneManager.h>
 
 namespace stage_11{
-	class Gameloop : public TaskManager{
+	class Gameloop : public TaskManager, public SceneManager {
 	public:
 		Gameloop(unsigned int threads = 1) : TaskManager(threads), threadcount(threads){
 		}
