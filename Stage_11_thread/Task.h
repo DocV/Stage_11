@@ -3,10 +3,12 @@
 
 #include "stdafx.h"
 
+#define TASK_EXECUTE virtual void operator() ()
+
 namespace stage_11{
 	class Task{
 	public:
-		operator() () = 0;
+		TASK_EXECUTE = 0;
 	};
 }
 

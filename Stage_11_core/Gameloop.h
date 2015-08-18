@@ -4,23 +4,50 @@
 #include "stdafx.h"
 #include <iostream>
 #include <thread>
+#include <TaskPool.h>
+#include <algorithm>
+#include <TaskManager.h>
 
 namespace stage_11{
-	class Gameloop{
+	class Gameloop : public TaskManager{
 	public:
-		Gameloop(unsigned int threads = 1) : threadcount(threads){
-
+		Gameloop(unsigned int threads = 1) : TaskManager(threads), threadcount(threads){
 		}
 
 		void start(){
+			std::cout << "starting engine" << std::endl;
+			for (unsigned int i = 0; i < threadcount; i++){
+				threadlist.push_back(new std::thread(&TaskPool::work, std::ref(tp)));
+			}
+			for (int i = 0; i < 100; i++){
+				Task* t = new testFunc();
+				tp.pushTask(t);
+			}
+			tp.waitForAllDone();
+			stop();
+			
+		}
 
+		void stop(){
+			tp.terminate();
+			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){t->join(); });
+			std::cout << "all done" << std::endl;
 		}
 
 		void loop(){
 
 		}
 	private:
+		std::list<std::thread*> threadlist;
 		unsigned int threadcount;
+		
+
+		class testFunc : public Task{
+		public:
+			virtual void operator()(){
+				std::cout << "testing" << std::endl;
+			}
+		};
 	};
 }
 
