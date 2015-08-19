@@ -25,7 +25,7 @@ namespace stage_11{
 			return *sc;
 		}
 
-		void setActiveScene(int sc){
+		void setActiveScene(unsigned int sc){
 			std::unique_lock<std::mutex> lock(sceneListMutex);
 			if (sc < 0 || sc > scenes.size()){
 				std::cerr << "Attempted to set invalid active scene; " << std::to_string(sc) << std::endl;
@@ -34,7 +34,7 @@ namespace stage_11{
 			activeScene = scenes[sc];
 		}
 
-	private:
+	protected:
 		std::vector<Scene*> scenes;
 		Scene* activeScene;
 		std::mutex sceneListMutex;

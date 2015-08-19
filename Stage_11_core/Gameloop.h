@@ -20,13 +20,17 @@ namespace stage_11{
 			for (unsigned int i = 0; i < threadcount; i++){
 				threadlist.push_back(new std::thread(&TaskPool::work, std::ref(tp)));
 			}
-			for (int i = 0; i < 100; i++){
-				Task* t = new testFunc();
-				tp.pushTask(t);
+			loop();
+		}
+
+		void loop(){
+			while (true){
+				tp.pushTask(activeScene->update());
+				tp.waitForAllDone();
+				tp.pushTask(activeScene->render());
+				tp.waitForAllDone();
 			}
-			tp.waitForAllDone();
 			stop();
-			
 		}
 
 		void stop(){
@@ -35,13 +39,9 @@ namespace stage_11{
 			std::cout << "all done" << std::endl;
 		}
 
-		void loop(){
-
-		}
 	private:
 		std::list<std::thread*> threadlist;
 		unsigned int threadcount;
-		
 
 		class testFunc : public Task{
 		public:

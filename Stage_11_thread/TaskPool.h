@@ -10,7 +10,7 @@
 
 namespace stage_11{
 
-	std::mutex taskListMutex;
+	
 	class TaskPool{
 	public:
 		TaskPool& operator=(const TaskPool& other) = delete;
@@ -64,6 +64,7 @@ namespace stage_11{
 		std::list<Task*> tasks;
 		std::condition_variable hasTasks;
 		std::condition_variable allDone;
+		std::mutex taskListMutex;
 		
 		bool terminated = false;
 		unsigned int waitingThreads = 0;

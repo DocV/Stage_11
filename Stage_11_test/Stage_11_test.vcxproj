@@ -58,6 +58,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Debug\Stage_11_scene.lib;D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Debug\Stage_11_thread.lib;D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Debug\Stage_common_graphics.lib;D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Debug\Stage_common_physics.lib;D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Debug\Stage_common_utilities.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

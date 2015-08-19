@@ -5,11 +5,14 @@
 #include <Task.h>
 
 namespace stage_11{
+	class GameObject;
 	class Component{
 	public:
 		virtual void doUpdate(){}
 		virtual void doRender(){}
 		virtual int id() = 0;
+
+		Component(GameObject& owner);
 
 		Task* update(){
 			return new Update(this);
