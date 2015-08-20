@@ -8,11 +8,18 @@
 #include <algorithm>
 #include <TaskManager.h>
 #include <SceneManager.h>
+#include <GraphicsController.h>
 
 namespace stage_11{
 	class Gameloop : public TaskManager, public SceneManager {
 	public:
-		Gameloop(unsigned int threads = 1) : TaskManager(threads), threadcount(threads){
+		Gameloop(std::string& windowName, int xres, int yres, unsigned int threads = 1) : TaskManager(threads), threadcount(threads){
+			gc = new stage_common::GraphicsController(windowName, xres, yres);
+		}
+
+		~Gameloop(){
+			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){delete t; });
+			delete gc;
 		}
 
 		void start(){
@@ -34,21 +41,21 @@ namespace stage_11{
 		}
 
 		void stop(){
+			terminated = true;
 			tp.terminate();
 			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){t->join(); });
 			std::cout << "all done" << std::endl;
 		}
 
 	private:
+		Gameloop(const Gameloop& other) = delete;
+		Gameloop& operator= (const Gameloop& other) = delete;
+
 		std::list<std::thread*> threadlist;
 		unsigned int threadcount;
+		bool terminated;
 
-		class testFunc : public Task{
-		public:
-			virtual void operator()(){
-				std::cout << "testing" << std::endl;
-			}
-		};
+		stage_common::GraphicsController* gc;
 	};
 }
 

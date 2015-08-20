@@ -22,6 +22,13 @@ namespace stage_11{
 			components.push_back(comp);
 		}
 
+		Component* getComponentByID(int id){
+			for (std::list<Component*>::iterator it = components.begin(); it != components.end(); it++){
+				if ((*it)->id() == id) return *it;
+			}
+			return nullptr;
+		}
+
 		GameObject(){}
 		~GameObject(){
 			std::unique_lock<std::mutex>(componentListMutex);

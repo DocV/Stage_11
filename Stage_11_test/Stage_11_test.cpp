@@ -30,7 +30,7 @@ private:
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	Gameloop loop(4);
+	Gameloop loop(std::string("testapp"), 640, 480, 4);
 
 	Scene& sc = loop.createScene();
 	loop.setActiveScene(0);
