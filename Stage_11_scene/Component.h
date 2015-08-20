@@ -39,7 +39,11 @@ namespace stage_11{
 		private:
 			Component* c;
 		};
+	private:
+		Component(const Component& other) = delete;
+		Component& operator= (const Component& other) = delete;
 	};
+
 }
 
 #endif
