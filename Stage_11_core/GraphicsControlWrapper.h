@@ -25,7 +25,7 @@ namespace stage_11{
 			std::unique_lock<std::mutex> lock(gcqueuemutex);
 			gc.queue(model, position);
 		}
-		GraphicsControlWrapper& getGlobalController(){
+		static GraphicsControlWrapper& getGlobalController(){
 			return *globalController;
 		}
 	private:
