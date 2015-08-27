@@ -51,10 +51,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Stage_11_thread;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_common\Stage_common_utilities;D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Stage_11_thread;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Stage_11_thread;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_common\Stage_common_utilities;D:\Libraries\New folder\Visual Studio 2013\Projects\Stage_11\Stage_11_thread;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

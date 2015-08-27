@@ -12,7 +12,9 @@
 namespace stage_11{
 	class ModelComponent : public Component{
 	public:
-		ModelComponent(GameObject& owner, stage_common::Model* mod) : Component(owner), mod(mod){}
+		ModelComponent(GameObject& owner, stage_common::Model* mod) : Component(owner), mod(mod){
+			tf = (Transform*)owner.getComponentByID(TRANSFORM_ID);
+		}
 
 		virtual void doRender(){
 			GraphicsControlWrapper::getGlobalController().queue(mod, tf->getMatrix());

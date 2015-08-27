@@ -37,7 +37,8 @@ namespace stage_11{
 				tp.pushTask(activeScene->render());
 				tp.waitForAllDone();
 				gc.getController().draw(*(activeCam->getRawCamera()));
-				if (gc.getController().shouldStop) terminated = true;
+				LOGMSG("loop done");
+				if (gc.getController().shouldStop()) terminated = true;
 			}
 			stop();
 		}
@@ -47,6 +48,10 @@ namespace stage_11{
 			tp.terminate();
 			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){t->join(); });
 			std::cout << "all done" << std::endl;
+		}
+
+		void setActiveCamera(CameraComponent* cam){
+			activeCam = cam;
 		}
 
 	private:

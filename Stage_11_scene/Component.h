@@ -33,7 +33,7 @@ namespace stage_11{
 		class Render : public Task{
 		public:
 			TASK_EXECUTE{
-				c->doUpdate();
+				c->doRender();
 			}
 				Render(Component*c) :c(c){}
 		private:

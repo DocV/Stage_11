@@ -11,11 +11,11 @@ namespace stage_11{
 		LogManager(std::ostream& standard, std::ostream& error) : logger(standard, error){
 		}
 		void log(std::string msg){
-			std::unique_lock<std::mutex>(logmutex);
+			std::unique_lock<std::mutex> lock(logmutex);
 			logger.Log(msg);
 		}
 		void logError(std::string msg){
-			std::unique_lock<std::mutex>(logmutex);
+			std::unique_lock<std::mutex> lock(logmutex);
 			logger.LogError(msg);
 		}
 	private:

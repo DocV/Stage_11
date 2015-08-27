@@ -21,7 +21,7 @@ namespace stage_11{
 			
 			if (tasks.size() < 1 && !terminated){
 				waitingThreads++;
-				if (waitingThreads >= threadCount) allDone.notify_all();
+				if (waitingThreads >= threadCount) allDone.notify_one();
 				hasTasks.wait(lock, [this]{return tasks.size() > 0 || terminated; });
 				waitingThreads--;
 			}
@@ -38,7 +38,7 @@ namespace stage_11{
 		}
 		void waitForAllDone(){
 			std::unique_lock<std::mutex> lock(taskListMutex);
-			if (waitingThreads < threadCount) allDone.wait(lock);
+			if (waitingThreads < threadCount) allDone.wait(lock, [this]{return waitingThreads == threadCount; });
 		}
 		void work(){
 			while (true){
