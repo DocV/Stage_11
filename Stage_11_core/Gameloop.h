@@ -1,4 +1,4 @@
-#ifndef GAMELOOP_H
+﻿#ifndef GAMELOOP_H
 #define GAMELOOP_H
 
 #include "stdafx.h"
@@ -10,6 +10,7 @@
 #include <SceneManager.h>
 #include "GraphicsControlWrapper.h"
 #include "CameraComponent.h"
+#include <Timer.h>
 
 namespace stage_11{
 	class Gameloop : public TaskManager, public SceneManager {
@@ -32,22 +33,45 @@ namespace stage_11{
 
 		void loop(){
 			while (!terminated){
+				looptimer.start();
+
+				//Päivitysvaihe
+				updatetimer.start();
 				tp.pushTask(activeScene->update());
 				tp.waitForAllDone();
+				updatetimer.stop();
+
+				//Piirtovaihe
+				rendertimer.start();
 				tp.pushTask(activeScene->render());
 				tp.waitForAllDone();
 				gc.getController().draw(*(activeCam->getRawCamera()));
-				LOGMSG("loop done");
+				rendertimer.stop();
+
+				//Ylläpitovaihe
+				maintenancetimer.start();
 				if (gc.getController().shouldStop()) terminated = true;
+				maintenancetimer.stop();
+				looptimer.stop();
 			}
-			stop();
+			shutdown();
+		}
+
+		void shutdown(){
+			terminated = true;
+			tp.terminate();
+			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){t->join(); });
+
+			std::cout << "Total runtime: " << looptimer.totalTime() << std::endl;
+			std::cout << "Total frames: " << looptimer.totalTicks() << std::endl;
+			std::cout << "Average loop time: " << looptimer.averageTime() << std::endl;
+			std::cout << "Average update time: " << updatetimer.averageTime() << std::endl;
+			std::cout << "Average render time: " << rendertimer.averageTime() << std::endl;
+			std::cout << "Average maintenance time: " << maintenancetimer.averageTime() << std::endl;
 		}
 
 		void stop(){
 			terminated = true;
-			tp.terminate();
-			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){t->join(); });
-			std::cout << "all done" << std::endl;
 		}
 
 		void setActiveCamera(CameraComponent* cam){
@@ -64,6 +88,11 @@ namespace stage_11{
 
 		GraphicsControlWrapper gc;
 		CameraComponent* activeCam;
+
+		stage_common::Timer looptimer;
+		stage_common::Timer updatetimer;
+		stage_common::Timer rendertimer;
+		stage_common::Timer maintenancetimer;
 	};
 }
 
