@@ -11,8 +11,8 @@
 namespace stage_11{
 	class GameObject{
 	public:
-		Task* update(){
-			return new Update(this);
+		Task* update(float elapsedMS){
+			return new Update(this, elapsedMS);
 		}
 		Task* render(){
 			return new Render(this);
@@ -47,13 +47,14 @@ namespace stage_11{
 		public:
 			TASK_EXECUTE{
 				std::unique_lock<std::mutex>(go->componentListMutex);
-				std::for_each(go->components.begin(), go->components.end(), [](Component* c){
-					TaskManager::pushTask(c->update());
+				std::for_each(go->components.begin(), go->components.end(), [this](Component* c){
+					TaskManager::pushTask(c->update(elapsedMS));
 				});
-			}
-			Update(GameObject* go) :go(go){}
+			};
+			Update(GameObject* go, float elapsedMS) :go(go), elapsedMS(elapsedMS){}
 		private:
 			GameObject* go;
+			float elapsedMS;
 		};
 		class Render : public Task{
 		public:

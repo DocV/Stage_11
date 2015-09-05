@@ -37,7 +37,7 @@ namespace stage_11{
 
 				//Päivitysvaihe
 				updatetimer.start();
-				tp.pushTask(activeScene->update());
+				tp.pushTask(activeScene->update(looptimer.lastTickTime()));
 				tp.waitForAllDone();
 				updatetimer.stop();
 

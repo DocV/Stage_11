@@ -96,7 +96,7 @@ public:
 	Testprinter(GameObject& owner) : Component(owner){
 		serial = serialCount++;
 	}
-	void doUpdate(){
+	void doUpdate(float elapsedMS){
 		LOGMSG("Printer " + std::to_string(serial) + " updating");
 	}
 	void doRender(){

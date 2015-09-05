@@ -24,5 +24,11 @@
     <ClInclude Include="EventChannel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
