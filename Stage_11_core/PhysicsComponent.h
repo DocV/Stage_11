@@ -17,6 +17,7 @@
 
 namespace stage_11{
 	class PhysicsComponent : public Component, public EventHandler{
+		friend class StaticGeometryComponent;
 	public:
 		static EventChannel& getCollisionEventChannel(){
 			static EventChannel channel;
@@ -49,6 +50,10 @@ namespace stage_11{
 			setup(owner);
 			coll = new stage_common::AABBCollider(size, transform->getPosition());
 
+		}
+
+		~PhysicsComponent(){
+			delete coll;
 		}
 
 		void doUpdate(float elapsedMS){
