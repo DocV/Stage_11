@@ -19,7 +19,7 @@ namespace stage_11{
 		template <class EventType>
 		void broadcastOthers(EventType e, EventHandler* sender){
 			for (std::list<EventHandler*>::iterator i = recipients.begin(); i != recipients.end(); i++){
-				if (*i =! sender) TaskManager::pushTask(new Forward<EventType>(e, *i));
+				if (*i != sender) TaskManager::pushTask(new Forward<EventType>(e, *i));
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace stage_11{
 
 		void readLock(){
 			std::unique_lock<std::mutex> lock(entry);
-			if (writing) canRead.wait(lock, [this]{!writing; });
+			if (writing) canRead.wait(lock, [this]{return !writing; });
 			readers++;
 		}
 		void readRelease(){
@@ -41,7 +41,7 @@ namespace stage_11{
 
 		void writeLock(){
 			std::unique_lock<std::mutex> lock(entry);
-			if (writing || readers > 0) canWrite.wait(lock, [this]{!writing && readers < 1; });
+			if (writing || readers > 0) canWrite.wait(lock, [this]{return !writing && readers < 1; });
 			writing = true;
 		}
 

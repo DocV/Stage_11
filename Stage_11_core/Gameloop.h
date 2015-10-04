@@ -11,16 +11,23 @@
 #include "GraphicsControlWrapper.h"
 #include "CameraComponent.h"
 #include <Timer.h>
+#include <Input.h>
 
 namespace stage_11{
 	class Gameloop : public TaskManager, public SceneManager {
 	public:
 		Gameloop(std::string& windowName, int xres, int yres, unsigned int threads = 1) 
 			: TaskManager(threads), threadcount(threads), gc(windowName, xres, yres){
+			if (mainLoop != nullptr){
+				LOGERR("Game loop already exists, terminating");
+				abort();
+			}
+			mainLoop = this;
 		}
 
 		~Gameloop(){
 			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){delete t; });
+			mainLoop = nullptr;
 		}
 
 		void start(){
@@ -32,6 +39,7 @@ namespace stage_11{
 		}
 
 		void loop(){
+			
 			while (!terminated){
 				looptimer.start();
 
@@ -50,6 +58,8 @@ namespace stage_11{
 
 				//Ylläpitovaihe
 				maintenancetimer.start();
+				stage_common::Input::getSingleton().update(false);
+				std::unique_lock<std::mutex> lock(stopMutex);
 				if (gc.getController().shouldStop()) terminated = true;
 				maintenancetimer.stop();
 				looptimer.stop();
@@ -58,6 +68,7 @@ namespace stage_11{
 		}
 
 		void shutdown(){
+			std::unique_lock<std::mutex> lock(stopMutex);
 			terminated = true;
 			tp.terminate();
 			std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){t->join(); });
@@ -71,6 +82,7 @@ namespace stage_11{
 		}
 
 		void stop(){
+			//std::unique_lock<std::mutex> lock(stopMutex);
 			terminated = true;
 		}
 
@@ -78,7 +90,12 @@ namespace stage_11{
 			activeCam = cam;
 		}
 
+		static Gameloop* getMainGameloop(){
+			return mainLoop;
+		}
 	private:
+		static Gameloop* mainLoop;
+
 		Gameloop(const Gameloop& other) = delete;
 		Gameloop& operator= (const Gameloop& other) = delete;
 
@@ -93,6 +110,8 @@ namespace stage_11{
 		stage_common::Timer updatetimer;
 		stage_common::Timer rendertimer;
 		stage_common::Timer maintenancetimer;
+
+		std::mutex stopMutex;
 	};
 }
 

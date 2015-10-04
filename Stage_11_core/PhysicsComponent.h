@@ -92,6 +92,10 @@ namespace stage_11{
 		glm::vec3 getVelocity(){
 			return velocity;
 		}
+
+		virtual int id(){
+			return PHYSICSCOMPONENT_ID;
+		}
 	private:
 		stage_common::Collider* coll;
 		Transform* transform;

@@ -8,6 +8,7 @@
 #include <Component.h>
 #include <Transform.h>
 #include "GraphicsControlWrapper.h"
+#include <GameObject.h>
 
 namespace stage_11{
 	class ModelComponent : public Component{

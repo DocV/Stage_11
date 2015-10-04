@@ -43,10 +43,11 @@ namespace stage_11{
 			std::lock(ownlock, otherlock);
 
 			if (!coll->checkCollision(*collEv.sender.coll)) return;
+			stage_common::Collisions::backOff(*collEv.sender.coll, -1.0f * collEv.sender.velocity, *coll);
 			//Kimmotetaan toinen kappale tästä
 			collEv.sender.velocity = stage_common::Collisions::reflect(collEv.sender.velocity, 
 				coll->getCollisionNormal(*collEv.sender.getCollider(), collEv.sender.velocity));
-			stage_common::Collisions::backOff(*collEv.sender.coll, -1.0f * collEv.sender.velocity, *coll);
+			
 		}
 	private:
 		stage_common::Collider* coll;

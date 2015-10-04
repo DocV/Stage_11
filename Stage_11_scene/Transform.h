@@ -4,8 +4,8 @@
 #include "stdafx.h"
 #include "Component.h"
 #include <glm\glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 #include <mutex>
-#include <glm\gtc\matrix_transform.inl>
 
 #define TRANSFORM_ID 1
 
