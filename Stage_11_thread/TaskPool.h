@@ -38,7 +38,9 @@ namespace stage_11{
 		}
 		void waitForAllDone(){
 			std::unique_lock<std::mutex> lock(taskListMutex);
-			if (waitingThreads < threadCount) allDone.wait(lock, [this]{return waitingThreads == threadCount; });
+			if (waitingThreads < threadCount || tasks.size() > 0) allDone.wait(lock, [this]{
+				return (waitingThreads == threadCount && tasks.size() < 1); 
+			});
 		}
 		void work(){
 			while (true){
