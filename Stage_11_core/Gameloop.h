@@ -76,6 +76,7 @@ namespace stage_11{
 			std::cout << "Total runtime: " << looptimer.totalTime() << std::endl;
 			std::cout << "Total frames: " << looptimer.totalTicks() << std::endl;
 			std::cout << "Average loop time: " << looptimer.averageTime() << std::endl;
+			std::cout << "Average fps: " << std::to_string(1000 / looptimer.averageTime()) << std::endl;
 			std::cout << "Average update time: " << updatetimer.averageTime() << std::endl;
 			std::cout << "Average render time: " << rendertimer.averageTime() << std::endl;
 			std::cout << "Average maintenance time: " << maintenancetimer.averageTime() << std::endl;

@@ -25,6 +25,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	int SCALE = 10;
 	//Pallojen määrä
 	int SPHERES = 5;
+	//Säikeiden määrä
+	int THREADS = 16;
 	std::string configfile;
 	std::ifstream configStream("config.ini", std::ios::in);
 
@@ -65,6 +67,17 @@ int _tmain(int argc, _TCHAR* argv[])
 					continue;
 				}
 			}
+			//Parametri THREADS
+			else if (start == "THREADS"){
+				try{
+					THREADS = std::stoi(end);
+					if (THREADS < 1) THREADS = 1;
+				}
+				catch (...){
+					std::cerr << "Error parsing configuration parameter SCALE" << std::endl;
+					continue;
+				}
+			}
 			//Muu parametri
 			else std::cerr << "Unknown configuration parameter " << start << std::endl;
 		}
@@ -73,7 +86,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	else std::cerr << "Warning: config.ini not found, falling back to default parameters" << std::endl;
 
 	//Luodaan pelisilmukkaolio
-	Gameloop loop(std::string("Stage control engine demo"), 640, 480);
+	Gameloop loop(std::string("Stage control engine demo"), 640, 480, THREADS);
 	//Luodaan pelimaailma
 	Scene& scene = loop.createScene();
 
