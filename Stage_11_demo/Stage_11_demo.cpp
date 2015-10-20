@@ -27,6 +27,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	int SPHERES = 5;
 	//Säikeiden määrä
 	int THREADS = 16;
+	double WAIT = 0.0;
 	std::string configfile;
 	std::ifstream configStream("config.ini", std::ios::in);
 
@@ -75,6 +76,17 @@ int _tmain(int argc, _TCHAR* argv[])
 				}
 				catch (...){
 					std::cerr << "Error parsing configuration parameter SCALE" << std::endl;
+					continue;
+				}
+			}
+			//Parametri WAIT
+			else if (start == "WAIT"){
+				try{
+					WAIT = std::stod(end);
+					if (WAIT < 0.0) WAIT = 0.0;
+				}
+				catch (...){
+					std::cerr << "Error parsing configuration parameter WAIT" << std::endl;
 					continue;
 				}
 			}
@@ -129,7 +141,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//Luodaan laatikkoon pallot
 	for (int i = 0; i < SPHERES; i++){
-		GameObject& sphere = GameObjectFactory::constructRandomSphere(&scene, glm::vec3(SCALE - 1, SCALE - 1, SCALE - 1));
+		GameObject& sphere = GameObjectFactory::constructRandomSphere(&scene, glm::vec3(SCALE - 1, SCALE - 1, SCALE - 1), WAIT);
 	}
 
 	//Luodaan kameraolio
