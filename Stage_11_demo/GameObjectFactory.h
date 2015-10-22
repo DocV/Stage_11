@@ -22,7 +22,7 @@ namespace stage_11{
 		@param maxCoordinates	Luotavan pallon maksimietäisyys origosta
 		@returns				Viite luotuun peliolioon
 		*/
-		static GameObject& constructRandomSphere(Scene* sc, glm::vec3 maxCoordinates, double waitMicros){
+		static GameObject& constructRandomSphere(Scene* sc, glm::vec3 maxCoordinates, int waitLimit){
 			//Luodaan peliolio
 			GameObject& obj = sc->createObject();
 			//Arvotaan peliolion alkusijainti
@@ -38,7 +38,7 @@ namespace stage_11{
 			glm::vec3 velocity(randomFloat(-0.01f, 0.01f), randomFloat(-0.01f, 0.01f), randomFloat(-0.01f, 0.01f));
 			//Luodaan pelioliolle fysiikkakomponentti
 			PhysicsComponent* pc = new PhysicsComponent(obj, 1.0f, velocity, 1.0f);
-			if (waitMicros > 0.0) Waiter* w = new Waiter(obj, waitMicros);
+			if (waitLimit > 0) Waiter* w = new Waiter(obj, waitLimit);
 			return obj;
 		}
 
