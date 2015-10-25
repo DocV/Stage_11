@@ -47,9 +47,11 @@ namespace stage_11{
 		public:
 			TASK_EXECUTE{
 				std::unique_lock<std::mutex>(go->componentListMutex);
-				std::for_each(go->components.begin(), go->components.end(), [this](Component* c){
-					TaskManager::pushTask(c->update(elapsedMS));
+				std::list<Task*> tasks;
+				std::for_each(go->components.begin(), go->components.end(), [this, &tasks](Component* c){
+					tasks.push_back(c->update(elapsedMS));
 				});
+				TaskManager::pushTaskList(tasks);
 			};
 			Update(GameObject* go, float elapsedMS) :go(go), elapsedMS(elapsedMS){}
 		private:
@@ -60,9 +62,11 @@ namespace stage_11{
 		public:
 			TASK_EXECUTE{
 				std::unique_lock<std::mutex>(go->componentListMutex);
-				std::for_each(go->components.begin(), go->components.end(), [](Component* c){
-					TaskManager::pushTask(c->render());
+				std::list<Task*> tasks;
+				std::for_each(go->components.begin(), go->components.end(), [&tasks](Component* c){
+					tasks.push_back(c->render());
 				});
+				TaskManager::pushTaskList(tasks);
 			}
 			Render(GameObject* go) :go(go){}
 		private:

@@ -36,6 +36,14 @@ namespace stage_11{
 			lock.unlock();
 			hasTasks.notify_one();
 		}
+		void pushTaskList(std::list<Task*>& taskList){
+			std::unique_lock<std::mutex> lock(taskListMutex);
+			for (std::list<Task*>::iterator it = taskList.begin(); it != taskList.end(); it++){
+				tasks.push_back(*it);
+			}
+			lock.unlock();
+			hasTasks.notify_all();
+		}
 		void waitForAllDone(){
 			std::unique_lock<std::mutex> lock(taskListMutex);
 			if (waitingThreads < threadCount || tasks.size() > 0) allDone.wait(lock, [this]{

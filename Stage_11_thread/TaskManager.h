@@ -26,6 +26,9 @@ namespace stage_11{
 		static void pushTask(Task* t){
 			singleton->tp.pushTask(t);
 		}
+		static void pushTaskList(std::list<Task*>& t){
+			singleton->tp.pushTaskList(t);
+		}
 		static TaskManager& getSingleton(){
 			return *singleton;
 		}

@@ -40,9 +40,11 @@ namespace stage_11{
 			Update(Scene* sc, float elapsedMS) : sc(sc), elapsedMS(elapsedMS){}
 			void operator()(){
 				std::unique_lock<std::mutex>(sc->objectListMutex);
-				std::for_each(sc->objects.begin(), sc->objects.end(), [this](GameObject* go){
-					TaskManager::pushTask(go->update(elapsedMS));
+				std::list<Task*> tasks;
+				std::for_each(sc->objects.begin(), sc->objects.end(), [this, &tasks](GameObject* go){
+					tasks.push_back(go->update(elapsedMS));
 				});
+				TaskManager::pushTaskList(tasks);
 			}
 		private:
 			Scene* sc;
@@ -54,9 +56,11 @@ namespace stage_11{
 			Render(Scene* sc) : sc(sc){}
 			void operator()(){
 				std::unique_lock<std::mutex>(sc->objectListMutex);
-				std::for_each(sc->objects.begin(), sc->objects.end(), [](GameObject* go){
-					TaskManager::pushTask(go->render());
+				std::list<Task*> tasks;
+				std::for_each(sc->objects.begin(), sc->objects.end(), [&tasks](GameObject* go){
+					tasks.push_back(go->render());
 				});
+				TaskManager::pushTaskList(tasks);
 			}
 		private:
 			Scene* sc;

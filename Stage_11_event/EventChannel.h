@@ -18,9 +18,11 @@ namespace stage_11{
 
 		template <class EventType>
 		void broadcastOthers(EventType e, EventHandler* sender){
+			std::list<Task*> tasks;
 			for (std::list<EventHandler*>::iterator i = recipients.begin(); i != recipients.end(); i++){
-				if (*i != sender) TaskManager::pushTask(new Forward<EventType>(e, *i));
+				if (*i != sender) tasks.push_back(new Forward<EventType>(e, *i));
 			}
+			TaskManager::pushTaskList(tasks);
 		}
 
 		template <class EventType>
