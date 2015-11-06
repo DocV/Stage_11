@@ -11,23 +11,13 @@ namespace stage_11{
 	class GraphicsControlWrapper{
 		friend class Gameloop;
 	public:
-		GraphicsControlWrapper(std::string& windowName, int xres, int yres) : gc(windowName, xres, yres){
-			if (globalController != nullptr){
-				LOGMSG("Global graphics control threadsafety wrapper already set, aborting");
-				abort();
-			}
-			globalController = this;
-		}
+		GraphicsControlWrapper(std::string& windowName, int xres, int yres);
 		~GraphicsControlWrapper(){
 			globalController = nullptr;
 		}
-		void queue(const stage_common::Model* model, const glm::mat4& position){
-			std::unique_lock<std::mutex> lock(gcqueuemutex);
-			gc.queue(model, position);
-		}
-		static GraphicsControlWrapper& getGlobalController(){
-			return *globalController;
-		}
+		void queue(const stage_common::Model* model, const glm::mat4& position);
+
+		static GraphicsControlWrapper& getGlobalController(){ return *globalController;	}
 	private:
 		GraphicsControlWrapper(const GraphicsControlWrapper& other) = delete;
 		GraphicsControlWrapper& operator= (const GraphicsControlWrapper& other) = delete;
@@ -37,9 +27,7 @@ namespace stage_11{
 
 		static GraphicsControlWrapper* globalController;
 
-		stage_common::GraphicsController& getController(){
-			return gc;
-		}
+		stage_common::GraphicsController& getController(){return gc;}
 	};
 }
 

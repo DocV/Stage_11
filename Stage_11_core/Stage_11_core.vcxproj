@@ -81,8 +81,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Gameloop.cpp" />
     <ClCompile Include="GraphicsControlWrapper.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="StaticGeometryComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,65 +8,26 @@
 #include <condition_variable>
 #include <algorithm>
 
-namespace stage_11{
-
-	
+namespace stage_11{	
 	class TaskPool{
 	public:
 		TaskPool& operator=(const TaskPool& other) = delete;
 		TaskPool(const TaskPool& other) = delete;
 		
-		Task* pullTask(){
-			std::unique_lock<std::mutex> lock(taskListMutex);
-			
-			if (tasks.size() < 1 && !terminated){
-				waitingThreads++;
-				if (waitingThreads >= threadCount) allDone.notify_one();
-				hasTasks.wait(lock, [this]{return tasks.size() > 0 || terminated; });
-				waitingThreads--;
-			}
-			if (terminated) return nullptr;
-			Task* ret = tasks.front();
-			tasks.pop_front();
-			return ret;
-		}
-		void pushTask(Task* task){
-			std::unique_lock<std::mutex> lock(taskListMutex);
-			tasks.push_back(task);
-			lock.unlock();
-			hasTasks.notify_one();
-		}
-		void pushTaskList(std::list<Task*>& taskList){
-			std::unique_lock<std::mutex> lock(taskListMutex);
-			for (std::list<Task*>::iterator it = taskList.begin(); it != taskList.end(); it++){
-				tasks.push_back(*it);
-			}
-			lock.unlock();
-			hasTasks.notify_all();
-		}
-		void waitForAllDone(){
-			std::unique_lock<std::mutex> lock(taskListMutex);
-			if (waitingThreads < threadCount || tasks.size() > 0) allDone.wait(lock, [this]{
-				return (waitingThreads == threadCount && tasks.size() < 1); 
-			});
-		}
-		void work(){
-			while (true){
-				Task* task = pullTask();
-				if (task == nullptr) return;
-				(*task)();
-				delete task;
-			}
-			
-		}
-		void terminate(){
-			std::unique_lock<std::mutex> lock(taskListMutex);
-			terminated = true;
-			lock.unlock();
-			hasTasks.notify_all();
-		}
+		Task* pullTask();
+
+		void pushTask(Task* task);
+
+		void pushTaskList(std::list<Task*>& taskList);
+
+		void waitForAllDone();
+
+		void work();
+
+		void terminate();
 
 		TaskPool(unsigned int threadCount) : threadCount(threadCount){}
+
 		~TaskPool(){
 			std::for_each(tasks.begin(), tasks.end(), [](Task* t){delete t; });
 		}
