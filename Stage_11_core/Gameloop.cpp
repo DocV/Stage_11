@@ -6,6 +6,7 @@ Gameloop* Gameloop::mainLoop = nullptr;
 
 Gameloop::Gameloop(std::string& windowName, int xres, int yres, unsigned int threads)
 	: TaskManager(threads), threadcount(threads), gc(windowName, xres, yres){
+	//Sallitaan vain yksi globaali Gameloop
 	if (mainLoop != nullptr){
 		LOGERR("Game loop already exists, terminating");
 		abort();
@@ -14,12 +15,15 @@ Gameloop::Gameloop(std::string& windowName, int xres, int yres, unsigned int thr
 }
 
 Gameloop::~Gameloop(){
+	//Tuhotaan työntekijäsäikeet
 	std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){delete t; });
+	//Poistetaan singleton-osoite
 	mainLoop = nullptr;
 }
 
 void Gameloop::start(){
 	LOGMSG("Starting Engine");
+	//Luodaan työntekijäsäikeet
 	for (unsigned int i = 0; i < threadcount; i++){
 		threadlist.push_back(new std::thread(&TaskPool::work, std::ref(tp)));
 	}
@@ -57,7 +61,9 @@ void Gameloop::loop(){
 void Gameloop::shutdown(){
 	std::unique_lock<std::mutex> lock(stopMutex);
 	terminated = true;
+	//Pysäytetään säieallas
 	tp.terminate();
+	//Odotetaan, että työntekijäsäikeet pysähtyvät
 	std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){t->join(); });
 
 	std::cout << "Total runtime: " << looptimer.totalTime() << std::endl;

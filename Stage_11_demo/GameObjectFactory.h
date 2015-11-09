@@ -20,6 +20,7 @@ namespace stage_11{
 		/** Luo satunnaiseen paikkaan pallon, joka liikkuu satunnaiseen suuntaan
 		@param sc				Pelialue, jolle pallo luodaan
 		@param maxCoordinates	Luotavan pallon maksimietäisyys origosta
+		@param waitLimit		Mihin lukuun asti pallo laskee alkulukuja jokaisen ruudunpäivityksen aikana
 		@returns				Viite luotuun peliolioon
 		*/
 		static GameObject& constructRandomSphere(Scene* sc, glm::vec3 maxCoordinates, int waitLimit){

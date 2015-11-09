@@ -16,6 +16,7 @@ Component(owner){
 
 void StaticGeometryComponent::doUpdate(){
 	std::unique_lock<std::mutex> lock(updatemutex);
+	//Haetaan nykyinen sijainti, koska muut komponentit voivat muuttaa sitä
 	coll->center = transform->getPosition();
 }
 
@@ -26,6 +27,7 @@ void StaticGeometryComponent::handleEvent(const Event& ev){
 
 	std::unique_lock<std::mutex> ownlock(updatemutex, std::defer_lock);
 	std::unique_lock<std::mutex> otherlock(collEv.sender.colliderMutex, std::defer_lock);
+	//Lukitaan molempien törmäävien olioiden lukot atomisesti
 	std::lock(ownlock, otherlock);
 
 	if (!coll->checkCollision(*collEv.sender.coll)) return;
@@ -39,6 +41,7 @@ void StaticGeometryComponent::handleEvent(const Event& ev){
 
 void StaticGeometryComponent::setup(GameObject& owner){
 	transform = (Transform*)(owner.getComponentByID(TRANSFORM_ID));
+	//Kirjoituslukitaan tapahtumakanava ja lisätään sen vastaanottajalistaan oma osoite
 	PhysicsComponent::getCollisionEventChannel().writeLock();
 	PhysicsComponent::getCollisionEventChannel().registerRecipient(this);
 	PhysicsComponent::getCollisionEventChannel().writeRelease();

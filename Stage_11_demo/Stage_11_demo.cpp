@@ -27,6 +27,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	int SPHERES = 5;
 	//Säikeiden määrä
 	int THREADS = 16;
+	//Kuinka raskasta laskentaa simuloidaan
 	int WAIT = 0;
 	std::string configfile;
 	std::ifstream configStream("config.ini", std::ios::in);
