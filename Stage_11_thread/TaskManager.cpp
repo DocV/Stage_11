@@ -6,6 +6,7 @@ using namespace stage_11;
 TaskManager* TaskManager::singleton = nullptr;
 
 TaskManager::TaskManager(unsigned int threadcount) : tp(threadcount), globalLogger(std::cout, std::cerr){
+	//Sallitaan vain yksi globaali TaskManager
 	if (singleton != nullptr){
 		globalLogger.logError(std::string("Error: attempted to create a global Task Manager when one already exists"));
 		abort();
