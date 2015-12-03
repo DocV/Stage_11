@@ -5,12 +5,9 @@
 #include <vector>
 #include <glm\glm.hpp>
 
-/*Sisältää palloa approksimoivan 3D-mallin datan
-*/
-
+/*Sisältää palloa approksimoivan 3D-mallin datan*/
 namespace stage_11{
-	/** Pallon verteksit
-	*/
+	/** Pallon verteksit*/
 	static std::vector<glm::vec3> sphere_vertices = {
 		glm::vec3(0.000000, -1.000000, 0.000000),
 		glm::vec3(0.723607, -0.447220, 0.525725),
@@ -55,10 +52,8 @@ namespace stage_11{
 		glm::vec3(-0.425323, 0.850654, -0.309011),
 		glm::vec3(0.162456, 0.850654, -0.499995)
 	};
-
 	/** Pallon tahkot
-	Jokainen kolmen numeron sarja määrittelee yhden kolmion, jonka kärjet ovat numeroiden ilmaisemat verteksit
-	*/
+	Jokainen kolmen numeron sarja määrittelee yhden kolmion, jonka kärjet ovat numeroiden ilmaisemat verteksit*/
 	static std::vector<int> sphere_faces = {
 		1, 14, 13,
 		2, 14, 16,
@@ -141,7 +136,6 @@ namespace stage_11{
 		13, 14, 15,
 		14, 2, 15
 	};
-
 	/** Yhdistää tahkot ja verteksit yhtenäiseksi verteksilistaksi
 	@returns	Palloa kuvaavan 3D-mallin verteksit
 	*/
@@ -152,7 +146,6 @@ namespace stage_11{
 		}
 		return ret;
 	}
-
 	/** Arpoo vertekseille väriarvot
 	@returns	Litteää pintaa kuvaavan 3D-mallin värit
 	*/
@@ -166,5 +159,4 @@ namespace stage_11{
 		return ret;
 	}
 }
-
 #endif

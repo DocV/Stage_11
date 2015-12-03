@@ -5,27 +5,21 @@
 #include <vector>
 #include <glm\glm.hpp>
 
-/*Sisältää litteän pinnan 3D-mallin datan
-*/
-
+/*Sisältää litteän pinnan 3D-mallin datan*/
 namespace stage_11{
-	/** Litteän pinnan verteksit
-	*/
+	/** Litteän pinnan verteksit*/
 	static std::vector<glm::vec3> plane_vertices = {
 		glm::vec3(-1.000000, 0.000000, 1.000000),
 		glm::vec3(1.000000, 0.000000, 1.000000),
 		glm::vec3(-1.000000, 0.000000, -1.000000),
 		glm::vec3(1.000000, 0.000000, -1.000000)
 	};
-
 	/** Pinnan tahkot
-	Jokainen kolmen numeron sarja määrittelee yhden kolmion, jonka kärjet ovat numeroiden ilmaisemat verteksit
-	*/
+	Jokainen kolmen numeron sarja määrittelee yhden kolmion, jonka kärjet ovat numeroiden ilmaisemat verteksit*/
 	static std::vector<int> plane_faces = {
 		2, 4, 3,
 		1, 2, 3
 	};
-
 	/** Yhdistää tahkot ja verteksit yhtenäiseksi verteksilistaksi
 	@returns	Litteää pintaa kuvaavan 3D-mallin verteksit
 	*/
@@ -37,7 +31,6 @@ namespace stage_11{
 		}
 		return ret;
 	}
-
 	/** Arpoo vertekseille väriarvot
 	@returns	Litteää pintaa kuvaavan 3D-mallin värit
 	*/
@@ -51,5 +44,4 @@ namespace stage_11{
 		return ret;
 	}
 }
-
 #endif

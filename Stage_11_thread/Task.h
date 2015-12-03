@@ -7,14 +7,11 @@
 
 namespace stage_11{
 	/**Olio, joka määrittelee säiealtaan työtehtävän.
-	Pelimoottorin toimiessa säiealtaan työntekijäsäikeet hakevat työtehtäviä yksi kerrallaan ja suorittavat ne.
-	*/
+	Pelimoottorin toimiessa säiealtaan työntekijäsäikeet hakevat työtehtäviä yksi kerrallaan ja suorittavat ne.*/
 	class Task{
 	public:
-		/** Metodi, joka suorittaa työtehtävän laskennan
-		*/
+		/** Metodi, joka suorittaa työtehtävän laskennan*/
 		TASK_EXECUTE = 0;
 	};
 }
-
 #endif

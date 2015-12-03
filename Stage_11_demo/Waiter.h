@@ -7,17 +7,14 @@
 #include <Component.h>
 
 namespace stage_11{
-	/** Pelioliokomponentti, joka simuloi raskasta, hyvin rinnakkaistuvaa laskentaa etsimällä alkulukuja
-	*/
+	/** Pelioliokomponentti, joka simuloi raskasta, hyvin rinnakkaistuvaa laskentaa etsimällä alkulukuja*/
 	class Waiter : public Component{
 	public:
 		/** Luo uuden Waiter-komponentin. Katso oikea käyttö yliluokasta.
 		@param owner	Viite tämän komponentin omistavaan peliolioon
 		@param limit	Se luku, jota pienemmät alkukuvut etsitään joka ruudunpäivityksen aikana
 		*/
-		Waiter(GameObject& owner, int limit) :
-			Component(owner), limit(limit){}
-
+		Waiter(GameObject& owner, int limit): Component(owner), limit(limit){}
 		/** Laskee alkulukuja tiettyyn raja-arvoon asti
 		@param elapsedMS	Edellisestä ruudunpäivityksestä kulunut aika
 		*/
@@ -28,7 +25,6 @@ namespace stage_11{
 				}
 			}
 		}
-
 		/** Palauttaa Waiter-komponentin komponenttitunnuksen
 		@returns	Waiter-komponentin tunnusluku
 		*/
@@ -38,7 +34,5 @@ namespace stage_11{
 		*/
 		int limit;
 	};
-
 }
-
 #endif

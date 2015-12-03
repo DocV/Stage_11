@@ -23,13 +23,10 @@ namespace stage_11{
 		ModelComponent(GameObject& owner, stage_common::Model* mod) : Component(owner), mod(mod){
 			tf = (Transform*)owner.getComponentByID(TRANSFORM_ID);
 		}
-
-		/** Valmistelee tämän mallin piirtämisen ruudulle
-		*/
+		/** Valmistelee tämän mallin piirtämisen ruudulle*/
 		virtual void doRender(){
 			GraphicsControlWrapper::getGlobalController().queue(mod, tf->getMatrix());
 		}
-
 		/** Palauttaa mallikomponentin komponenttitunnuksen
 		@returns	Mallikomponentin komponenttitunnus
 		*/
@@ -37,13 +34,10 @@ namespace stage_11{
 			return MODELCOMPONENT_ID;
 		}
 	private:
-		/** Osoitin tämän komponentin 3D-malliin
-		*/
+		/** Osoitin tämän komponentin 3D-malliin*/
 		stage_common::Model* mod;
-		/** Osoitin tämän komponentin omistavan olion sijaintia ylläpitävään komponenttiin
-		*/
+		/** Osoitin tämän komponentin omistavan olion sijaintia ylläpitävään komponenttiin*/
 		Transform* tf;
 	};
 }
-
 #endif

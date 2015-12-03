@@ -13,7 +13,6 @@ TaskManager::TaskManager(unsigned int threadcount) : tp(threadcount), globalLogg
 	}
 	singleton = this;
 }
-
 TaskManager::~TaskManager(){
 	singleton = nullptr;
 }

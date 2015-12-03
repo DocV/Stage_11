@@ -8,8 +8,7 @@
 #include <GraphicsController.h>
 
 namespace stage_11{
-	/** Luokka, joka tarjoaa säieturvallisen rajapinnan grafiikkamoottorin hallintaluokkaan
-	*/
+	/** Luokka, joka tarjoaa säieturvallisen rajapinnan grafiikkamoottorin hallintaluokkaan*/
 	class GraphicsControlWrapper{
 		friend class Gameloop;
 	public:
@@ -19,8 +18,7 @@ namespace stage_11{
 		@param yres			Peli-ikkunan pystyresoluutio
 		*/
 		GraphicsControlWrapper(std::string& windowName, int xres, int yres);
-		/** Tuhoaa grafiikkamoottorin
-		*/
+		/** Tuhoaa grafiikkamoottorin*/
 		~GraphicsControlWrapper(){
 			globalController = nullptr;
 		}
@@ -29,7 +27,6 @@ namespace stage_11{
 		@param position	Sijainti, johon malli piirretään
 		*/
 		void queue(const stage_common::Model* model, const glm::mat4& position);
-
 		/** Hakee osoittimen globaaliin grafiikkamoottorisingletoniin
 		@returns	Osoitin globaaliin grafiikkamoottoriolioon
 		*/
@@ -38,23 +35,16 @@ namespace stage_11{
 		GraphicsControlWrapper(const GraphicsControlWrapper& other) = delete;
 		GraphicsControlWrapper& operator= (const GraphicsControlWrapper& other) = delete;
 
-		/** Grafiikkamoottoriolio
-		*/
+		/** Grafiikkamoottoriolio*/
 		stage_common::GraphicsController gc;
-		/** Lukko, jolla estetään useampaa säiettä muuttamasta piirrettävien mallien listaa samanaikaisesti
-		*/
+		/** Lukko, jolla estetään useampaa säiettä muuttamasta piirrettävien mallien listaa samanaikaisesti*/
 		std::mutex gcqueuemutex;
-
-		/** Globaali grafikkamoottorisingleton
-		*/
+		/** Globaali grafikkamoottorisingleton*/
 		static GraphicsControlWrapper* globalController;
-
 		/** Hakee viitteen tämän olion sisältämään grafiikkamoottoriolioon
 		@returns	Viite yksisäikeiseen grafiikkamoottoriolioon
 		*/
 		stage_common::GraphicsController& getController(){return gc;}
 	};
 }
-
-
 #endif

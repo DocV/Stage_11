@@ -10,15 +10,12 @@
 #include <string>
 
 namespace stage_11{
-	/** Pelialueita hallinnoiva olio
-	*/
+	/** Pelialueita hallinnoiva olio*/
 	class SceneManager{
 	public:
-		/** Luo uuden pelialueita hallinnoivan olion
-		*/
+		/** Luo uuden pelialueita hallinnoivan olion*/
 		SceneManager(){}
-		/** Tuhoaa pelialueita hallinnoivan olion ja sen sisältämät pelialueet
-		*/
+		/** Tuhoaa pelialueita hallinnoivan olion ja sen sisältämät pelialueet*/
 		~SceneManager(){
 			std::unique_lock<std::mutex> lock(sceneListMutex);
 			std::for_each(scenes.begin(), scenes.end(), [](Scene* sc){delete sc; });
@@ -32,7 +29,6 @@ namespace stage_11{
 			scenes.push_back(sc);
 			return *sc;
 		}
-
 		/** Asettaa aktiivisen pelialueen, eli määrittelee minkä pelialueen tila päivitetään pelisilmukkaa suoritettaessa
 		@param sc	Uuden aktiivisen pelialueen indeksi pelialuelistassa
 		*/
@@ -44,16 +40,12 @@ namespace stage_11{
 			}
 			activeScene = scenes[sc];
 		}
-
 	protected:
-		/** Lista pelin pelialueista
-		*/
+		/** Lista pelin pelialueista*/
 		std::vector<Scene*> scenes;
-		/** Nykyinen aktiivinen pelialue
-		*/
+		/** Nykyinen aktiivinen pelialue*/
 		Scene* activeScene;
-		/** Pelialuelistaa suojaava lukko
-		*/
+		/** Pelialuelistaa suojaava lukko*/
 		std::mutex sceneListMutex;
 	};
 }

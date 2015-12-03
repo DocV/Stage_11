@@ -42,7 +42,6 @@ namespace stage_11{
 			if (waitLimit > 0) Waiter* w = new Waiter(obj, waitLimit);
 			return obj;
 		}
-
 		/** Luo pelimaailmaan seinän eli litteän, staattisen törmäyspinnan
 		@param sc			Pelialue, johon seinä luodaan
 		@param transform	Seinän keskipisteen 3D-sijainti
@@ -61,18 +60,12 @@ namespace stage_11{
 			return obj;
 		}
 	private:
-		/** Peliolioiden käyttämä sävytinohjelma
-		*/
+		/** Peliolioiden käyttämä sävytinohjelma*/
 		stage_common::SimpleShader ss;
-
-		/** Pallon 3D-malli
-		*/
+		/** Pallon 3D-malli*/
 		stage_common::Model mod_sphere;
-
-		/** Seinän 3D-malli
-		*/
+		/** Seinän 3D-malli*/
 		stage_common::Model mod_plane;
-
 		/**Hakee viitteen globaaliin singleton-olioon, joka luo 3D-mallit ja niiden sävytinohjelman sekä pitää ne muistissa
 		@returns	Viite singleton-olioon
 		*/
@@ -81,7 +74,6 @@ namespace stage_11{
 			static GameObjectFactory gof;
 			return gof;
 		}
-
 		/**Arpoo liukuluvun kahden liukuluvun väliltä
 		@param start	Arvottavan luvun alaraja
 		@param end		Arvottavan luvun yläraja
@@ -91,7 +83,6 @@ namespace stage_11{
 			float random = ((float)rand()) / (float)RAND_MAX;
 			return start + (end - start) * random;
 		}
-
 		/** Luo uuden GameObjectFactory-olion, eli käytännössä lataa muistiin peliolioiden luomisessa tarvittavat resurssit
 		*/
 		GameObjectFactory() : mod_sphere(generate_sphere_vertices(), generate_sphere_colors(), &ss),
@@ -99,5 +90,4 @@ namespace stage_11{
 		}
 	};
 }
-
 #endif

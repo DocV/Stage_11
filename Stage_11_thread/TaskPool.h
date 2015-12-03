@@ -9,8 +9,7 @@
 #include <algorithm>
 
 namespace stage_11{
-	/** Pelimoottorin pohjana toimiva säieallas
-	*/
+	/** Pelimoottorin pohjana toimiva säieallas*/
 	class TaskPool{
 	public:
 		TaskPool& operator=(const TaskPool& other) = delete;
@@ -29,50 +28,38 @@ namespace stage_11{
 		@param task	Lista, joka sisältää osoittimia suoritettaviin työtehtäviin
 		*/
 		void pushTaskList(std::list<Task*>& taskList);
-		/** Odottaa, kunnes kaikki työtehtävät on suoritettu
-		*/
+		/** Odottaa, kunnes kaikki työtehtävät on suoritettu*/
 		void waitForAllDone();
-		/** Suorittaa jatkuvasti työtehtäviä, kunnes säieallas pysäytetään
-		*/
+		/** Suorittaa jatkuvasti työtehtäviä, kunnes säieallas pysäytetään*/
 		void work();
-		/** Pysäyttää säiealtaan
-		*/
+		/** Pysäyttää säiealtaan*/
 		void terminate();
 		/** Luo uuden säiealtaan
 		@param threadCount	Työntekijäsäikeiden määrä
 		*/
 		TaskPool(unsigned int threadCount) : threadCount(threadCount){}
 		/** Tuhoaa säiealtaan
-		Ennen tuhoamista, kutsu aina terminate()-metodia ja odota säikeiden suorituksen loppumista
-		*/
+		Kutsu aina terminate()-metodia ja odota säikeiden suorituksen loppumista ennen tuhoamista*/
 		~TaskPool(){
 			//Tuhotaan suorittamattomat työtehtävät
 			std::for_each(tasks.begin(), tasks.end(), [](Task* t){delete t; });
 		}
 	private:
-		/** Lista suorittamattomista työtehtävistä
-		*/
+		/** Lista suorittamattomista työtehtävistä*/
 		std::list<Task*> tasks;
-		/** Ilmoittaa, että työtehtäviä on saatavillla
-		*/
+		/** Ilmoittaa, että työtehtäviä on saatavillla*/
 		std::condition_variable hasTasks;
-		/** Ilmoittaa, että kaikki työtehtävät on suoritettu
-		*/
+		/** Ilmoittaa, että kaikki työtehtävät on suoritettu*/
 		std::condition_variable allDone;
-		/** Työtehtävälistaa suojaava lukko
-		*/
+		/** Työtehtävälistaa suojaava lukko*/
 		std::mutex taskListMutex;
 		
-		/** Onko säiealtaan suoritus pysäytetty
-		*/
+		/** Onko säiealtaan suoritus pysäytetty*/
 		bool terminated = false;
-		/** Niiden työntekijäsäikeiden määrä, joilla ei ole mitään tekemistä
-		*/
+		/** Niiden työntekijäsäikeiden määrä, joilla ei ole mitään tekemistä*/
 		unsigned int waitingThreads = 0;
-		/** Työntekijäsäikeiden kokonaismäärä
-		*/
+		/** Työntekijäsäikeiden kokonaismäärä*/
 		unsigned int threadCount;
 	};
 }
-
 #endif

@@ -20,7 +20,6 @@ Task* TaskPool::pullTask(){
 	tasks.pop_front();
 	return ret;
 }
-
 void TaskPool::pushTask(Task* task){
 	std::unique_lock<std::mutex> lock(taskListMutex);
 	tasks.push_back(task);
@@ -28,7 +27,6 @@ void TaskPool::pushTask(Task* task){
 	//Herätetään työtehtäviä odottava säie
 	hasTasks.notify_one();
 }
-
 void TaskPool::pushTaskList(std::list<Task*>& taskList){
 	std::unique_lock<std::mutex> lock(taskListMutex);
 	for (std::list<Task*>::iterator it = taskList.begin(); it != taskList.end(); it++){
@@ -38,7 +36,6 @@ void TaskPool::pushTaskList(std::list<Task*>& taskList){
 	//Herätetään työtehtäviä odottavat säikeet
 	hasTasks.notify_all();
 }
-
 void TaskPool::waitForAllDone(){
 	std::unique_lock<std::mutex> lock(taskListMutex);
 	//Odotetaan, kunnes kaikki säikeet ovat odotustilassa ja tehtävälista on tyhjä
@@ -46,7 +43,6 @@ void TaskPool::waitForAllDone(){
 		return (waitingThreads == threadCount && tasks.size() < 1);
 	});
 }
-
 void TaskPool::work(){
 	while (true){
 		//Haetaan uusi työtehtävä
@@ -59,7 +55,6 @@ void TaskPool::work(){
 		delete task;
 	}
 }
-
 void TaskPool::terminate(){
 	std::unique_lock<std::mutex> lock(taskListMutex);
 	terminated = true;

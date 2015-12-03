@@ -6,8 +6,7 @@
 #include <Logger.h>
 
 namespace stage_11{
-	/** Olio, joka hallinnoi säieturvallista kirjoitusta lokiin
-	*/
+	/** Olio, joka hallinnoi säieturvallista kirjoitusta lokiin*/
 	class LogManager{
 	public:
 		/** Luo uuden lokinhallintaolion
@@ -34,13 +33,10 @@ namespace stage_11{
 		LogManager(const LogManager& other) = delete;
 		LogManager* operator= (const LogManager& other) = delete;
 
-		/** Pääsyä lokiin hallinnoiva lukko
-		*/
+		/** Pääsyä lokiin hallinnoiva lukko*/
 		std::mutex logmutex;
-		/** Lokiolio
-		*/
+		/** Lokiolio*/
 		stage_common::Logger logger;
 	};
 }
-
 #endif

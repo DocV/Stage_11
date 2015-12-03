@@ -6,24 +6,20 @@
 #include "TaskPool.h"
 #include "LogManager.h"
 
-/** Makro, jolla kirjoitetaan lokiin tavallinen lokiviesti
-*/
+/** Makro, jolla kirjoitetaan lokiin tavallinen lokiviesti*/
 #define LOGMSG(MSG) stage_11::TaskManager::getGlobalLogger().log(MSG);
-/** Makro, jolla kirjoitetaan lokiin virheviesti
-*/
+/** Makro, jolla kirjoitetaan lokiin virheviesti*/
 #define LOGERR(MSG) stage_11::TaskManager::getGlobalLogger().logError(MSG);
 
 namespace stage_11{
-	/** Globaali singleton-olio, joka mahdollistaa työtehtävien lisäämisen säiealtaan suoritettavaksi.
-	*/
+	/** Globaali singleton-olio, joka mahdollistaa työtehtävien lisäämisen säiealtaan suoritettavaksi.*/
 	class TaskManager{
 	public:
 		/** Luo uuden työtehtävien hallintaolion
 		@param threadcount	Säiealtaan työntekijäsäikeiden määrä
 		*/
 		TaskManager(unsigned int threadcount);
-		/** Tuhoaa työntekijöiden hallintaolion
-		*/
+		/** Tuhoaa työntekijöiden hallintaolion*/
 		~TaskManager();
 		/** Lisää uuden työtehtävän säiealtaan suoritettavaksi
 		@param t	Suoritettava työtehtävä
@@ -50,17 +46,13 @@ namespace stage_11{
 			return singleton->globalLogger;
 		}
 	private:
-		/** Globaali TaskManager-singleton
-		*/
+		/** Globaali TaskManager-singleton*/
 		static TaskManager* singleton;
 	protected:
-		/** Säieallas
-		*/
+		/** Säieallas*/
 		TaskPool tp;
-		/** Globaali lokiolio
-		*/
+		/** Globaali lokiolio*/
 		LogManager globalLogger;
 	};
 }
-
 #endif

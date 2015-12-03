@@ -5,8 +5,7 @@
 #include "Event.h"
 
 namespace stage_11{
-	/** Abstrakti rajapintaluokka, jonka toteuttavat oliot voivat rekisteröityä ottamaan vastaan viestejä tapahtumakanavilta
-	*/
+	/** Abstrakti rajapintaluokka, jonka toteuttavat oliot voivat rekisteröityä ottamaan vastaan viestejä tapahtumakanavilta*/
 	class EventHandler{
 	public:
 		/** Käsittelee tapahtumajärjestelmän kautta saapuneen viestin
@@ -15,5 +14,4 @@ namespace stage_11{
 		virtual void handleEvent(const Event& e) = 0;
 	};
 }
-
 #endif

@@ -13,7 +13,6 @@ GraphicsControlWrapper::GraphicsControlWrapper(std::string& windowName, int xres
 	}
 	globalController = this;
 }
-
 void GraphicsControlWrapper::queue(const stage_common::Model* model, const glm::mat4& position){
 	std::unique_lock<std::mutex> lock(gcqueuemutex);
 	gc.queue(model, position);

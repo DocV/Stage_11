@@ -13,14 +13,12 @@ Gameloop::Gameloop(std::string& windowName, int xres, int yres, unsigned int thr
 	}
 	mainLoop = this;
 }
-
 Gameloop::~Gameloop(){
 	//Tuhotaan työntekijäsäikeet
 	std::for_each(threadlist.begin(), threadlist.end(), [](std::thread* t){delete t; });
 	//Poistetaan singleton-osoite
 	mainLoop = nullptr;
 }
-
 void Gameloop::start(){
 	LOGMSG("Starting Engine");
 	//Luodaan työntekijäsäikeet
@@ -29,7 +27,6 @@ void Gameloop::start(){
 	}
 	loop();
 }
-
 void Gameloop::loop(){
 	while (!terminated){
 		looptimer.start();
@@ -57,7 +54,6 @@ void Gameloop::loop(){
 	}
 	shutdown();
 }
-
 void Gameloop::shutdown(){
 	std::unique_lock<std::mutex> lock(stopMutex);
 	terminated = true;
@@ -74,12 +70,10 @@ void Gameloop::shutdown(){
 	std::cout << "Average render time: " << rendertimer.averageTime() << std::endl;
 	std::cout << "Average maintenance time: " << maintenancetimer.averageTime() << std::endl;
 }
-
 void Gameloop::stop(){
 	std::unique_lock<std::mutex> lock(stopMutex);
 	terminated = true;
 }
-
 void Gameloop::setActiveCamera(CameraComponent* cam){
 	activeCam = cam;
 }

@@ -8,8 +8,7 @@
 
 namespace stage_11{
 	/** Pelioliokomponentti, joka mallintaa staattista, liikkumatonta törmäyshahmoa, kuten pelimaailman maastoa
-	tai seiniä.
-	*/
+	tai seiniä.*/
 	class StaticGeometryComponent : public Component, public EventHandler{
 	public:
 		/** Luo uuden staattisen törmäyshahmon, joka käyttää pallotörmäyshahmoa
@@ -17,38 +16,31 @@ namespace stage_11{
 		@param radius	Törmäyshahmon säde
 		*/
 		StaticGeometryComponent(GameObject& owner, float radius);
-
 		/** Luo uuden staattisen törmäyshahmon, joka käyttää AABB-törmäyshahmoa
 		@param owner	Komponentin omistava peliolio
 		@param radius	Törmäyshahmon koko
 		*/
 		StaticGeometryComponent(GameObject& owner, glm::vec3 size);
-
 		/** Palauttaa staattisen törmäyshahmokomponentin komponenttitunnuksen
 		@returns	Komponentin komponenttitunnus
 		*/
 		virtual int id(){
 			return STATICGEOMETRYCOMPONENT_ID;
 		}
-
 		/** Päivittää komponentin tilan
 		@param elapsedMS	Edellisestä ruudunpäivityksestä kulunut aika
 		*/
 		virtual void doUpdate();
-
 		/** Käsittelee olion vastaanottamat tapahtumaviestit
 		@param ev	Käsiteltävä viesti
 		*/
 		virtual void handleEvent(const Event& ev);
 	private:
-		/** Komponentin törmäyshahmo
-		*/
+		/** Komponentin törmäyshahmo*/
 		stage_common::Collider* coll;
-		/** Komponentin omistavan peliolion sijaintikomponentti
-		*/
+		/** Komponentin omistavan peliolion sijaintikomponentti*/
 		Transform* transform;
-		/** Komponentin sisäistä tilaa suojaava lukko
-		*/
+		/** Komponentin sisäistä tilaa suojaava lukko*/
 		std::mutex updatemutex;
 		/** Konstruktoreille yhteinen alustusfunktio
 		@param owner	Viite tämän komponentin omistamaan peliolioon
@@ -56,5 +48,4 @@ namespace stage_11{
 		void setup(GameObject& owner);
 	};
 }
-
 #endif

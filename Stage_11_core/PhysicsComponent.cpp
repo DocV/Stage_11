@@ -7,17 +7,14 @@ Component(owner), velocity(initialV), mass(mass){
 	setup(owner);
 	coll = new stage_common::SphereCollider(radius, transform->getPosition());
 }
-
 PhysicsComponent::PhysicsComponent(GameObject& owner, glm::vec3 size, glm::vec3 initialV, float mass) :
 Component(owner), velocity(initialV), mass(mass){
 	setup(owner);
 	coll = new stage_common::AABBCollider(size, transform->getPosition());
 }
-
 PhysicsComponent::~PhysicsComponent(){
 	delete coll;
 }
-
 void PhysicsComponent::doUpdate(float elapsedMS){
 	updatePosition(elapsedMS);
 	//Lukulukitaan tapahtumakanava
@@ -28,11 +25,9 @@ void PhysicsComponent::doUpdate(float elapsedMS){
 	//Vapautetaan lukko
 	getCollisionEventChannel().readRelease();
 }
-
 void PhysicsComponent::doRender(){
 	updatedThisFrame = false;
 }
-
 void PhysicsComponent::handleEvent(const Event& ev){
 	//Käsitellään vain törmäysviestit
 	if (ev.getEventType() != PHYSICS_COLLISION_EVENT_TYPE) return;
@@ -52,7 +47,6 @@ void PhysicsComponent::handleEvent(const Event& ev){
 	//Synkronoidaan sijainnin muutos omistajaolion sijainnin kanssa
 	collEv.sender.commitMovement();
 }
-
 void PhysicsComponent::setup(GameObject& owner){
 	transform = (Transform*)(owner.getComponentByID(TRANSFORM_ID));
 	//Kirjoituslukitaan tapahtumakanava ja lisätään sen vastaanottajalistaan oma osoite
@@ -60,7 +54,6 @@ void PhysicsComponent::setup(GameObject& owner){
 	getCollisionEventChannel().registerRecipient(this);
 	getCollisionEventChannel().writeRelease();
 }
-
 void PhysicsComponent::updatePosition(float elapsedMS){
 	std::unique_lock<std::mutex> lock(colliderMutex);
 	if (updatedThisFrame) return;
@@ -73,7 +66,6 @@ void PhysicsComponent::updatePosition(float elapsedMS){
 	oldPos = coll->center;
 	updatedThisFrame = true;
 }
-
 void PhysicsComponent::commitMovement(){
 	glm::vec3 translation = coll->center - oldPos;
 	transform->translate(translation);

@@ -7,8 +7,7 @@
 #include "GameObject.h"
 
 namespace stage_11{
-	/** Pelialueen mallintava luokka.
-	*/
+	/** Pelialueen mallintava luokka.*/
 	class Scene{
 	public:
 		/** Luo työtehtävän, joka päivittää pelialueen peliolioiden tilan
@@ -33,11 +32,9 @@ namespace stage_11{
 			objects.push_back(obj);
 			return *obj;
 		}
-		/** Luo uuden pelialueen
-		*/
+		/** Luo uuden pelialueen*/
 		Scene(){}
-		/** Tuhoaa pelialueen ja sen sisältämät pelioliot
-		*/
+		/** Tuhoaa pelialueen ja sen sisältämät pelioliot*/
 		~Scene(){
 			std::unique_lock<std::mutex>(objectListMutex);
 			std::for_each(objects.begin(), objects.end(), [](GameObject* go){
@@ -45,18 +42,15 @@ namespace stage_11{
 			});
 		}
 	private:
-		/** Pelialueen sisältämät pelioliot
-		*/
+		/** Pelialueen sisältämät pelioliot*/
 		std::list<GameObject*> objects;
-		/** Pelioliolistaa suojaava lukko
-		*/
+		/** Pelioliolistaa suojaava lukko*/
 		std::mutex objectListMutex;
 
 		Scene(const Scene& other) = delete;
 		Scene& operator= (const Scene& other) = delete;
 
-		/** Työtehtäväolio, joka päivittää pelialueen sisältämien peliolioiden tilan
-		*/
+		/** Työtehtäväolio, joka päivittää pelialueen sisältämien peliolioiden tilan*/
 		class Update : public Task{
 		public:
 			Update(Scene* sc, float elapsedMS) : sc(sc), elapsedMS(elapsedMS){}
@@ -69,15 +63,12 @@ namespace stage_11{
 				TaskManager::pushTaskList(tasks);
 			}
 		private:
-			/** Se pelialue, jonka oliot päivitetään
-			*/
+			/** Se pelialue, jonka oliot päivitetään*/
 			Scene* sc;
-			/** Edellisestä ruudunpäivityksestä kulunut aika
-			*/
+			/** Edellisestä ruudunpäivityksestä kulunut aika*/
 			float elapsedMS;
 		};
-		/** Työtehtäväolio, joka piirtää ruudulle pelialueen sisältämät pelioliot
-		*/
+		/** Työtehtäväolio, joka piirtää ruudulle pelialueen sisältämät pelioliot*/
 		class Render : public Task{
 		public:
 			Render(Scene* sc) : sc(sc){}
@@ -90,11 +81,9 @@ namespace stage_11{
 				TaskManager::pushTaskList(tasks);
 			}
 		private:
-			/** Se pelialue, jonka oliot piirretään
-			*/
+			/** Se pelialue, jonka oliot piirretään*/
 			Scene* sc;
 		};
 	};
 }
-
 #endif

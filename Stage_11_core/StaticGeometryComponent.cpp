@@ -7,19 +7,16 @@ Component(owner){
 	setup(owner);
 	coll = new stage_common::SphereCollider(radius, transform->getPosition());
 }
-
 StaticGeometryComponent::StaticGeometryComponent(GameObject& owner, glm::vec3 size) :
 Component(owner){
 	setup(owner);
 	coll = new stage_common::AABBCollider(size, transform->getPosition());
 }
-
 void StaticGeometryComponent::doUpdate(){
 	std::unique_lock<std::mutex> lock(updatemutex);
 	//Haetaan nykyinen sijainti, koska muut komponentit voivat muuttaa sitä
 	coll->center = transform->getPosition();
 }
-
 void StaticGeometryComponent::handleEvent(const Event& ev){
 	//Käsitellään vain törmäysviestit
 	if (ev.getEventType() != PHYSICS_COLLISION_EVENT_TYPE) return;
@@ -38,7 +35,6 @@ void StaticGeometryComponent::handleEvent(const Event& ev){
 	stage_common::Collisions::backOff(*collEv.sender.coll, -1.0f * collEv.sender.velocity, *coll);
 	collEv.sender.commitMovement();
 }
-
 void StaticGeometryComponent::setup(GameObject& owner){
 	transform = (Transform*)(owner.getComponentByID(TRANSFORM_ID));
 	//Kirjoituslukitaan tapahtumakanava ja lisätään sen vastaanottajalistaan oma osoite

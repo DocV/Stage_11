@@ -4,8 +4,7 @@
 #include "stdafx.h"
 
 namespace stage_11{
-	/** Tapahtumajärjestelmän viestien abstrakti yliluokka
-	*/
+	/** Tapahtumajärjestelmän viestien abstrakti yliluokka*/
 	struct Event{
 		/** Hakee viestin tyyppitunnuksen
 		@param tyyppitunnus
@@ -13,5 +12,4 @@ namespace stage_11{
 		virtual unsigned int getEventType() const = 0;
 	};
 }
-
 #endif

@@ -9,8 +9,7 @@
 
 #define TRANSFORM_ID 1
 
-/** Peliolion sijaintia 3D-pelimaailmassa ylläpitävä komponentti
-*/
+/** Peliolion sijaintia 3D-pelimaailmassa ylläpitävä komponentti*/
 namespace stage_11{
 	class Transform : public Component{
 	public:
@@ -19,7 +18,6 @@ namespace stage_11{
 		@param matrix	Peliolion sijainti simulaation alussa
 		*/
 		Transform(GameObject& owner, const glm::mat4& matrix = glm::mat4()) : Component(owner), transform(matrix){}
-
 		/** Hakee peliolion sijaintimatriisin
 		@returns	Peliolion sijaintia ja orientaatiota esittävä 4x4-matriisi
 		*/
@@ -27,7 +25,6 @@ namespace stage_11{
 			std::unique_lock<std::mutex>(tfmutex);
 			return transform;
 		}
-
 		/** Asettaa peliolion sijaintimatriisin
 		@param matrix	Peliolion sijaintia ja orientaatiota esittävä 4x4-matriisi
 		*/
@@ -35,7 +32,6 @@ namespace stage_11{
 			std::unique_lock<std::mutex>(tfmutex);
 			transform = matrix;
 		}
-
 		/** Hakee peliolion sijaintivektorin
 		@returns	Peliolion sijaintia esittävä kolmipaikkainen vektori
 		*/
@@ -43,7 +39,6 @@ namespace stage_11{
 			std::unique_lock<std::mutex>(tfmutex);
 			return glm::vec3(transform[3]);
 		}
-
 		/** Siirtää pelioliota haluttuun suuntaan
 		@param direction	Vektori, joka ilmoittaa mihin suuntaan ja miten kauas pelioliota siirretään
 		*/
@@ -51,7 +46,6 @@ namespace stage_11{
 			std::unique_lock<std::mutex>(tfmutex);
 			transform = glm::translate(transform, direction);
 		}
-
 		/** Hakee sijaintikomponentin komponenttitunnuksen
 		@returns	Sijaintikomponentin komponenttitunnus
 		*/
@@ -59,13 +53,10 @@ namespace stage_11{
 			return TRANSFORM_ID;
 		}
 	private:
-		/** Peliolion sijaintia ja orientaatiota kuvaava 4x4-matriisi
-		*/
+		/** Peliolion sijaintia ja orientaatiota kuvaava 4x4-matriisi*/
 		glm::mat4 transform;
-		/** Sijaintimatriisia suojaava lukko
-		*/
+		/** Sijaintimatriisia suojaava lukko*/
 		std::mutex tfmutex;
 	};
 }
-
 #endif

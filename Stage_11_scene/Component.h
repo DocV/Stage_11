@@ -6,8 +6,7 @@
 
 namespace stage_11{
 	class GameObject;
-	/** Yliluokka pelioliokomponenteille. Komponentit liitetään peliolioihin ja ne suorittavat laskentaa pelimoottorin päivitys- ja piirtovaiheissa.
-	*/
+	/** Yliluokka pelioliokomponenteille. Komponentit liitetään peliolioihin ja ne suorittavat laskentaa pelimoottorin päivitys- ja piirtovaiheissa.*/
 	class Component{
 	public:
 		/** Suorittaa tämän komponentin päivitysvaiheen laskennan.
@@ -21,13 +20,11 @@ namespace stage_11{
 		@returns	Tämän komponentin tyyppitunnus
 		*/
 		virtual int id() = 0;
-
 		/** Luo uuden komponentin. Luonnin jälkeen tämän komponentin omistava olio hallinnoi sen elinkaarta,
 		joten komponentti on aina luotava new:lla.
 		@param owner	Tämän komponentin omistava peliolio
 		*/
 		Component(GameObject& owner);
-
 		/** Luo uuden työtehtävän, joka kutsuu tämän komponentin päivitysmetodia.
 		@returns	Tämän komponentin päivitystyötehtävä. Tuhottava suorituksen jälkeen manuaalisesti deletellä.
 		*/
@@ -41,8 +38,7 @@ namespace stage_11{
 			return new Render(this);
 		}
 	protected:
-		/** Työtehtäväolio, joka kutsuu komponenttiolion päivitysmetodia
-		*/
+		/** Työtehtäväolio, joka kutsuu komponenttiolion päivitysmetodia*/
 		class Update : public Task{
 		public:
 			TASK_EXECUTE {
@@ -50,15 +46,12 @@ namespace stage_11{
 			};
 			Update(Component*c, float elapsedMS) :c(c), elapsedMS(elapsedMS){}
 		private:
-			/** Se komponentti, jonka päivitysmetodia kutsutaan.
-			*/
+			/** Se komponentti, jonka päivitysmetodia kutsutaan.*/
 			Component* c;
-			/** Edellisestä ruudunpäivityksestä kulunut aika.
-			*/
+			/** Edellisestä ruudunpäivityksestä kulunut aika.*/
 			float elapsedMS;
 		};
-		/** Työtehtäväolio, joka kutsuu komponenttiolion piirtometodia
-		*/
+		/** Työtehtäväolio, joka kutsuu komponenttiolion piirtometodia*/
 		class Render : public Task{
 		public:
 			TASK_EXECUTE{
@@ -66,8 +59,7 @@ namespace stage_11{
 			}
 			Render(Component*c) :c(c){}
 		private:
-			/** Se komponentti, jonka piirtometodia kutsutaan.
-			*/
+			/** Se komponentti, jonka piirtometodia kutsutaan.*/
 			Component* c;
 		};
 	private:
@@ -76,5 +68,4 @@ namespace stage_11{
 	};
 
 }
-
 #endif

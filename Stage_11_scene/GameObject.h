@@ -9,8 +9,7 @@
 #include <mutex>
 
 namespace stage_11{
-	/** Peliolion mallintava olio. Peliolio liittää eri komponentteja yhteen yhdeksi kokonaisuudeksi
-	*/
+	/** Peliolion mallintava olio. Peliolio liittää eri komponentteja yhteen yhdeksi kokonaisuudeksi*/
 	class GameObject{
 	public:
 		/** Luo uuden työtehtäväolion, joka luo päivitystyötehtävät kaikille tämän peliolion komponenteille
@@ -44,12 +43,9 @@ namespace stage_11{
 			}
 			return nullptr;
 		}
-
-		/** Luo uuden peliolion
-		*/
+		/** Luo uuden peliolion*/
 		GameObject(){}
-		/** Tuhoaa peliolion ja sen komponentit
-		*/
+		/** Tuhoaa peliolion ja sen komponentit*/
 		~GameObject(){
 			std::unique_lock<std::mutex>(componentListMutex);
 			std::for_each(components.begin(), components.end(), [](Component* c){
@@ -57,18 +53,15 @@ namespace stage_11{
 			});
 		}
 	private:
-		/** Tämän peliolion omistamat komponentit
-		*/
+		/** Tämän peliolion omistamat komponentit*/
 		std::list<Component*> components;
-		/** Komponenttilistaa suojaava lukko
-		*/
+		/** Komponenttilistaa suojaava lukko*/
 		std::mutex componentListMutex;
 
 		GameObject(const GameObject& other) = delete;
 		GameObject& operator= (const GameObject& other) = delete;
 
-		/** Työtehtäväolio, joka päivittää peliolion komponenttien tilan
-		*/
+		/** Työtehtäväolio, joka päivittää peliolion komponenttien tilan*/
 		class Update : public Task{
 		public:
 			TASK_EXECUTE{
@@ -82,15 +75,12 @@ namespace stage_11{
 			};
 			Update(GameObject* go, float elapsedMS) :go(go), elapsedMS(elapsedMS){}
 		private:
-			/** Se peliolio, jonka komponentit päivitetään
-			*/
+			/** Se peliolio, jonka komponentit päivitetään*/
 			GameObject* go;
-			/** Edellisestä ruudunpäivityksestä kulunut aika
-			*/
+			/** Edellisestä ruudunpäivityksestä kulunut aika*/
 			float elapsedMS;
 		};
-		/** Työtehtäväolio, joka päivittää valmistelee peliolion komponentit piirtoa varten
-		*/
+		/** Työtehtäväolio, joka päivittää valmistelee peliolion komponentit piirtoa varten*/
 		class Render : public Task{
 		public:
 			TASK_EXECUTE{
@@ -104,11 +94,9 @@ namespace stage_11{
 			}
 			Render(GameObject* go) :go(go){}
 		private:
-			/** Se peliolio, jonka komponentit piirretään
-			*/
+			/** Se peliolio, jonka komponentit piirretään*/
 			GameObject* go;
 		};
 	};
 }
-
 #endif
