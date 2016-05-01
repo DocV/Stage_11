@@ -65,7 +65,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (SPHERES < 1) SPHERES = 1;
 				}
 				catch (...){
-					std::cerr << "Error parsing configuration parameter SCALE" << std::endl;
+					std::cerr << "Error parsing configuration parameter SPHERES" << std::endl;
 					continue;
 				}
 			}
@@ -76,7 +76,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					if (THREADS < 1) THREADS = 1;
 				}
 				catch (...){
-					std::cerr << "Error parsing configuration parameter SCALE" << std::endl;
+					std::cerr << "Error parsing configuration parameter THREADS" << std::endl;
 					continue;
 				}
 			}
